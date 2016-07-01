@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+         
+    <changeSet id="init todos table" author="de1mos">
+    	<createTable tableName="todos">
+    		<column name="id" type="bigint" />
+    		<column name="name" type="varchar(255)" />
+    	</createTable>
+    </changeSet>
+    
+    <changeSet id="fill primary data" author="de1mos">
+    	<insert tableName="todos">
+    		<column name="id" value="1" />
+    		<column name="name" value="write simple server" />
+    	</insert>
+    	<insert tableName="todos">
+    		<column name="id" value="2" />
+    		<column name="name" value="add stupid handle" />
+    	</insert>
+    	<insert tableName="todos">
+    		<column name="id" value="3" />
+    		<column name="name" value="use sqlite datasource with liquibase" />
+    	</insert>
+    </changeSet>
+
+</databaseChangeLog>

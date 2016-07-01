@@ -1,0 +1,55 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	text-align: center;
+	font: 16px;
+	background: #F5F5F5;
+}
+
+div {
+	margin-top: 30px;
+	display: inline-block;
+}
+
+header {
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+ul {
+	text-align: left;
+	list-style: none;
+	padding: 0px;
+}
+
+li {
+	border: 1px solid grey;
+	background: #FFFFFF;
+	padding: 5px;
+	margin: 4px;
+}
+
+li.checked {
+	text-decoration: line-through;
+	color: #B9B9B9;
+}
+
+form>input {
+	width: calc(100% - 6px);
+	height: 32px;
+	margin: 0px 3px;
+	padding: 4px;
+}
+
+li>button, li>button:hover, li>button:active {
+	background: inherit;
+	border: none;
+	outline: none;
+	float: right;
+}
+
+li>button:hover {
+	cursor: pointer;
+}

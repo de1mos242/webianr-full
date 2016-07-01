@@ -1,0 +1,7 @@
+<li ng-class="taskCtrl.task.checked ? 'checked' : ''">
+	<input type="checkbox" 
+		   ng-checked="taskCtrl.task.checked" 
+		   ng-click="taskCtrl.changeState()">
+	{{taskCtrl.task.text}}
+	<button ng-click="taskCtrl.open({passedTask: taskCtrl.task})">&gt;</button>
+</li>

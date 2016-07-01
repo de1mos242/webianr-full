@@ -1,0 +1,11 @@
+allprojects {
+	group = 'pro.sisit'
+	version = '0.11'
+
+	description = "Demo todo app project"
+
+}
+
+wrapper {
+  gradleVersion = '2.14'
+}

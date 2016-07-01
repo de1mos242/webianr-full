@@ -1,0 +1,2 @@
+require('./cardCtrl');
+require('./listCtrl');

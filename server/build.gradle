@@ -1,0 +1,58 @@
+repositories {
+     mavenLocal()
+     mavenCentral()
+}
+
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+
+war.dependsOn ':angular:build'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+def warName = "task.tracker"
+
+war {
+	from ('../angular/build') { into 'resources' }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+dependencies {
+	compile group: 'org.eclipse.jetty', name: 'jetty-http', version: '9.3.8.v20160314'
+	compile group: 'org.eclipse.jetty', name: 'jetty-io', version: '9.3.8.v20160314'
+	compile group: 'org.eclipse.jetty', name: 'jetty-security', version: '9.3.8.v20160314'
+	compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.3.8.v20160314'
+	compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.3.8.v20160314'
+	compile group: 'org.eclipse.jetty', name: 'jetty-util', version: '9.3.8.v20160314'
+	compile group: 'org.eclipse.jetty', name: 'jetty-webapp', version: '9.3.8.v20160314'
+	compile group: 'org.eclipse.jetty', name: 'jetty-xml', version: '9.3.8.v20160314'
+	
+	compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+	
+	compile group: 'org.springframework', name: 'spring-webmvc', version:'4.2.0.RELEASE'
+	
+	// http://mvnrepository.com/artifact/commons-dbcp/commons-dbcp
+	compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.2.2'
+	
+	compile group: 'org.liquibase', name: 'liquibase-core', version:'3.4.1'
+	
+	compile group: 'com.fasterxml.jackson.jaxrs', name: 'jackson-jaxrs-json-provider', version:'2.4.3'
+	
+	compile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.4'
+	
+	compile group: 'org.hibernate', name: 'hibernate-core', version: '5.1.0.Final'
+	compile group: 'org.springframework', name: 'spring-orm', version: '4.2.0.RELEASE'
+}
+
+eclipse {
+    project {
+        natures 'org.springsource.ide.eclipse.gradle.core.nature'
+        buildCommand 'org.eclipse.jdt.core.javabuilder'
+        buildCommand 'org.eclipse.wst.common.project.facet.core.builder'
+        buildCommand 'org.eclipse.wst.validation.validationbuilder'
+    }
+}

@@ -22,6 +22,8 @@
   
   <context:component-scan base-package="task.tracker.controllers" />
   
+<!--   <context:component-scan base-package="task.oauth" /> -->
+  
   <mvc:resources location="/resources/" mapping="/resources/**"/>
   
   <mvc:annotation-driven />

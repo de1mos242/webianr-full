@@ -2,13 +2,23 @@ package task.oauth;
 
 import java.util.Arrays;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.token.AccessTokenProviderChain;
+import org.springframework.security.oauth2.client.token.AccessTokenRequest;
+import org.springframework.security.oauth2.client.token.ClientTokenServices;
+import org.springframework.security.oauth2.client.token.JdbcClientTokenServices;
+import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.common.AuthenticationScheme;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
@@ -28,15 +38,29 @@ public class OAuthConfig {
 		return controller;
 	}
 	
+	@Autowired
+	public DataSource dataSource;
 	
 	
+	@Resource
+	@Qualifier("accessTokenRequest")
+	private AccessTokenRequest accessTokenRequest;
 	
 	@Autowired
 	private OAuth2ClientContext oauth2Context;
 
 	@Bean
+	@Scope(value = "session", proxyMode = ScopedProxyMode.INTERFACES)
 	public OAuth2RestTemplate facebookRestTemplate() {
-		return new OAuth2RestTemplate(facebook(), oauth2Context);
+		OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(facebook(), oauth2Context);
+		AccessTokenProviderChain provider = new AccessTokenProviderChain(Arrays.asList(new AuthorizationCodeAccessTokenProvider()));
+		provider.setClientTokenServices(clientTokenServices());
+		return oAuth2RestTemplate;
+	}
+	
+	@Bean
+	public ClientTokenServices clientTokenServices() {
+		return new JdbcClientTokenServices(dataSource);
 	}
 	
 	

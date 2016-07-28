@@ -6,6 +6,7 @@ require('./style.css');
 angular.module('tasksApp', ['ngRoute'])
 .service('tasksService', ['$http', tasksService])
 .service('facebookService', ['$http', facebookService])
+.service('googleService', ['$http', googleService])
 .config(['$routeProvider', routeConfig]);
 
 function routeConfig($routeProvider) {
@@ -14,6 +15,11 @@ function routeConfig($routeProvider) {
 		template: require('./views/list.html'),
 		controller: 'tasksViewCtrl',
 		controllerAs: 'tasksViewCtrl'
+	})
+	.when('/login', {
+		template: require('./views/login.html'),
+		controller: 'loginCtrl',
+		controllerAs: 'loginCtrl'
 	})
 	.when('/:id', {
 		template: require('./views/card.html'),
@@ -42,6 +48,16 @@ function facebookService($http) {
 	return {
 		getName: function() {
 			return $http.get('facebook/me').then(function (result) {
+				return result.data;
+			});
+		}
+	};
+}
+
+function googleService($http) {
+	return {
+		getName: function() {
+			return $http.get('google/me').then(function (result) {
 				return result.data;
 			});
 		}

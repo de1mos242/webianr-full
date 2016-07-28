@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
@@ -38,6 +39,14 @@ public class OAuthConfig {
 		return controller;
 	}
 	
+	@Bean
+	public GoogleController googleController(@Qualifier("googleRestTemplate")
+	RestOperations googleRestTemplate) {
+		GoogleController controller = new GoogleController();
+		controller.setGoogleRestTemplate(googleRestTemplate);
+		return controller;
+	}
+	
 	@Autowired
 	public DataSource dataSource;
 	
@@ -55,6 +64,13 @@ public class OAuthConfig {
 		OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(facebook(), oauth2Context);
 		//AccessTokenProviderChain provider = new AccessTokenProviderChain(Arrays.asList(new AuthorizationCodeAccessTokenProvider()));
 		//provider.setClientTokenServices(clientTokenServices());
+		return oAuth2RestTemplate;
+	}
+	
+	@Bean
+	@Scope(value = "session", proxyMode = ScopedProxyMode.INTERFACES)
+	public OAuth2RestTemplate googleRestTemplate() {
+		OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(google(), new DefaultOAuth2ClientContext());
 		return oAuth2RestTemplate;
 	}
 	
@@ -78,5 +94,20 @@ public class OAuthConfig {
 		details.setClientAuthenticationScheme(AuthenticationScheme.form);
 		return details;
 	}
-
+	
+	@Bean
+	public OAuth2ProtectedResourceDetails google() {
+		AuthorizationCodeResourceDetails details = new AuthorizationCodeResourceDetails();
+		details.setId("google");
+		details.setClientId("1081918194687-jfl9sb7r5cmmc4amo0j768rbg1jniv79.apps.googleusercontent.com");
+		details.setClientSecret("xylQER92invPBNobXufoQpPE");
+		
+		details.setAccessTokenUri("https://accounts.google.com/o/oauth2/token");
+		details.setUserAuthorizationUri("https://accounts.google.com/o/oauth2/auth");
+		details.setTokenName("oauth_token");
+		details.setScope(Arrays.asList("https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"));
+		details.setAuthenticationScheme(AuthenticationScheme.query);
+		details.setClientAuthenticationScheme(AuthenticationScheme.form);
+		return details;
+	}
 }

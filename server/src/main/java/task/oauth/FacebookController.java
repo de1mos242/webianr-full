@@ -2,7 +2,10 @@ package task.oauth;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestOperations;
 
@@ -18,6 +21,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class FacebookController {
 
 	private RestOperations facebookRestTemplate;
+	
+	@RequestMapping("/facebook/login")
+	public void login(HttpServletResponse response) throws Exception {
+	    facebookRestTemplate
+				.getForObject("https://graph.facebook.com/me", ObjectNode.class);
+	    response.sendRedirect("/server/#/login");
+	}
 
 	@RequestMapping("/facebook/info")
 	public FacebookFriendsResponseDTO getInfo() throws Exception {
@@ -32,10 +42,10 @@ public class FacebookController {
 	}
 	
 	@RequestMapping("/facebook/me")
-	public FacebookUserDTO whoAmI() throws Exception {
+	public UserDTO whoAmI() throws Exception {
 		ObjectNode result = facebookRestTemplate
 				.getForObject("https://graph.facebook.com/me", ObjectNode.class);
-		return new FacebookUserDTO(result.get("name").asText());
+		return new UserDTO(result.get("name").asText());
 	}
 
 	public void setFacebookRestTemplate(RestOperations facebookRestTemplate) {

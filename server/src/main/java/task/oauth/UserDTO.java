@@ -1,8 +1,8 @@
 package task.oauth;
 
-public class FacebookUserDTO {
+public class UserDTO {
 	public String username;
-	public FacebookUserDTO(String name) {
+	public UserDTO(String name) {
 		this.username = name;
 	}
 }

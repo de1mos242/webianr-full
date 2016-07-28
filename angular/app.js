@@ -5,6 +5,7 @@ require('./style.css');
 
 angular.module('tasksApp', ['ngRoute'])
 .service('tasksService', ['$http', tasksService])
+.service('facebookService', ['$http', facebookService])
 .config(['$routeProvider', routeConfig]);
 
 function routeConfig($routeProvider) {
@@ -21,47 +22,6 @@ function routeConfig($routeProvider) {
 	.otherwise('/');
 }
 
-function mockTaskService($q) {
-	var tasks = [{
-		id: 1,
-		text: 'Подключить bower',
-		checked: false
-	}, {
-		id: 2,
-		text: 'Включить минификатор',
-		checked: false
-	}, {
-		id: 3,
-		text: 'Включить eslint',
-		checked: false
-	}, {
-		id: 4,
-		text: 'Включить в общую сборку с сервером',
-		checked: false
-	}, {
-		id: 5,
-		text: 'Реализовать добавление и обновление задач',
-		checked: false
-	}];
-
-	return {
-		getTasks: function() {
-			return $q.resolve(tasks);
-		},
-		get: function(id) {
-			for (var i = 0; i < tasks.length; i++) {
-				if (tasks[i].id === id) {
-					return $q.resolve(tasks[i]);
-				}
-			}
-			return $q.reject('Not found: 404');
-		},
-		changeState: function(task) {
-			task.checked = !task.checked;
-		}
-	}
-}
-
 function tasksService($http) {
 	return {
 		getTasks: function() {
@@ -69,21 +29,21 @@ function tasksService($http) {
 			    return res.data;
 			});
 		},
-		//changeState: function(task) {
-		//	task.checked = !task.checked;
-		//},
-		//addTask: function(text) {
-		//	var task = {
-		//		id: tasks[tasks.length - 1].id + 1,
-		//		text: text,
-		//		checked: false
-		//	};
-		//	tasks.push(task);
-		//},
+		
 		get: function(id) {
 		    return $http.get('rest/tasks/' + id).then(function (res) {
                 return res.data;
             });
+		}
+	};
+}
+
+function facebookService($http) {
+	return {
+		getName: function() {
+			return $http.get('facebook/me').then(function (result) {
+				return result.data;
+			});
 		}
 	};
 }

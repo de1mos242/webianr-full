@@ -2,11 +2,11 @@ package task.oauth;
 
 import java.util.List;
 
-public class FacebookResponseDTO {
+public class FacebookFriendsResponseDTO {
 	
 	public List<String> friends;
 	
-	public FacebookResponseDTO(List<String> friends) {
+	public FacebookFriendsResponseDTO(List<String> friends) {
 		this.friends = friends;
 	}
 }

@@ -20,7 +20,7 @@ public class FacebookController {
 	private RestOperations facebookRestTemplate;
 
 	@RequestMapping("/facebook/info")
-	public FacebookResponseDTO getInfo() throws Exception {
+	public FacebookFriendsResponseDTO getInfo() throws Exception {
 		ObjectNode result = facebookRestTemplate
 				.getForObject("https://graph.facebook.com/me/invitable_friends", ObjectNode.class);
 		ArrayNode data = (ArrayNode) result.get("data");
@@ -28,7 +28,14 @@ public class FacebookController {
 		for (JsonNode dataNode : data) {
 			friends.add(dataNode.get("name").asText());
 		}
-		return new FacebookResponseDTO(friends);
+		return new FacebookFriendsResponseDTO(friends);
+	}
+	
+	@RequestMapping("/facebook/me")
+	public FacebookUserDTO whoAmI() throws Exception {
+		ObjectNode result = facebookRestTemplate
+				.getForObject("https://graph.facebook.com/me", ObjectNode.class);
+		return new FacebookUserDTO(result.get("name").asText());
 	}
 
 	public void setFacebookRestTemplate(RestOperations facebookRestTemplate) {

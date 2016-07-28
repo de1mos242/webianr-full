@@ -53,8 +53,8 @@ public class OAuthConfig {
 	@Scope(value = "session", proxyMode = ScopedProxyMode.INTERFACES)
 	public OAuth2RestTemplate facebookRestTemplate() {
 		OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(facebook(), oauth2Context);
-		AccessTokenProviderChain provider = new AccessTokenProviderChain(Arrays.asList(new AuthorizationCodeAccessTokenProvider()));
-		provider.setClientTokenServices(clientTokenServices());
+		//AccessTokenProviderChain provider = new AccessTokenProviderChain(Arrays.asList(new AuthorizationCodeAccessTokenProvider()));
+		//provider.setClientTokenServices(clientTokenServices());
 		return oAuth2RestTemplate;
 	}
 	

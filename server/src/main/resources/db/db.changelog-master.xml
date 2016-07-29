@@ -26,5 +26,29 @@
     		<column name="name" value="use sqlite datasource with liquibase" />
     	</insert>
     </changeSet>
+    
+    <changeSet id="init users table" author="de1mos">
+    	<createTable tableName="social_user">
+    		<column name="id" type="bigint" />
+    		<column name="password" type="varchar(255)" />
+    		<column name="enabled" type="boolean" />
+     	</createTable>
+     	
+     	<createTable tableName="authorities">
+     		<column name="id" type="bigint" />
+    		<column name="user_id" type="bigint" />
+    		<column name="authority" type="varchar(255)" />
+     	</createTable>
+     	
+     	<createTable tableName="user_profile">
+     		<column name="id" type="bigint" />
+    		<column name="user_id" type="bigint" />
+    		<column name="email" type="varchar(255)" />
+    		<column name="first_name" type="varchar(255)" />
+    		<column name="last_name" type="varchar(255)" />
+    		<column name="name" type="varchar(255)" />
+    		<column name="username" type="varchar(255)" />
+     	</createTable>
+    </changeSet>
 
 </databaseChangeLog>

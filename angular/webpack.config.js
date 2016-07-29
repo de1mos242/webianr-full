@@ -19,6 +19,11 @@ module.exports = {
 			template: 'index.html',
 			inject: true
 		}),
+		new HtmlWebpackPlugin({
+			template: 'login.html',
+			inject: true,
+			filename: 'login.html'
+		}),
 		new ExtractTextPlugin('style.[contenthash:6].css'),
 		new CleanWebpackPlugin(['build'], {
 			verbose: true

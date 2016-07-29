@@ -10,5 +10,19 @@
 
 	<context:annotation-config />
 	
-	<bean class="task.oauth.OAuthConfig" />
+<!-- 	<context:component-scan base-package="task.social" /> -->
+<!-- 	<context:component-scan base-package="task.oauth" /> -->
+	<context:component-scan base-package="task.tracker.dao" />
+	<context:component-scan base-package="task.tracker.entities" />
+	
+<!-- 	<bean class="task.oauth.OAuthConfig" /> -->
+	
+	<bean class="task.social.SecurityConfiguration" />
+	
+	<bean class="task.social.SocialConfig" />
+	
+	<bean class="task.social.AccountConnectionSignUpService" />
+	
+	
+	
 </beans>
